@@ -112,6 +112,8 @@ func (c *Config) Merge(config *Config) {
 		}
 		for _, template := range config.ConfigTemplates {
 			c.ConfigTemplates = append(c.ConfigTemplates, &ConfigTemplate{
+				DelimLeft:   template.DelimLeft,
+				DelimRight:  template.DelimRight,
 				Source:      template.Source,
 				Destination: template.Destination,
 				Command:     template.Command,
@@ -277,6 +279,8 @@ type Syslog struct {
 // ConfigTemplate is the representation of an input template, output location,
 // and optional command to execute when rendered
 type ConfigTemplate struct {
+	DelimLeft   string `mapstructure:"delimleft"`
+	DelimRight  string `mapstructure:"delimright"`
 	Source      string `mapstructure:"source"`
 	Destination string `mapstructure:"destination"`
 	Command     string `mapstructure:"command"`
@@ -302,5 +306,5 @@ func ParseConfigTemplate(s string) (*ConfigTemplate, error) {
 		return nil, errors.New("invalid template declaration format")
 	}
 
-	return &ConfigTemplate{source, destination, command}, nil
+	return &ConfigTemplate{"", "", source, destination, command}, nil
 }

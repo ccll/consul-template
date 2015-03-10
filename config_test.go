@@ -263,6 +263,8 @@ func TestParseConfig_correctValues(t *testing.T) {
     }
 
     template {
+      delimleft = "[["
+      delimright = "]]"
       source = "nginx.conf.ctmpl"
       destination  = "/etc/nginx/nginx.conf"
     }
@@ -328,6 +330,8 @@ func TestParseConfig_correctValues(t *testing.T) {
 		LogLevel: "warn",
 		ConfigTemplates: []*ConfigTemplate{
 			&ConfigTemplate{
+				DelimLeft:   "[[",
+				DelimRight:  "]]",
 				Source:      "nginx.conf.ctmpl",
 				Destination: "/etc/nginx/nginx.conf",
 			},

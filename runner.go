@@ -413,6 +413,7 @@ func (r *Runner) init() error {
 			ctemplatesMap[tmpl.Path] = make([]*ConfigTemplate, 0, 1)
 		}
 		ctemplatesMap[tmpl.Path] = append(ctemplatesMap[tmpl.Path], ctmpl)
+		tmpl.ctemplate = ctmpl
 	}
 
 	// Convert the map of templates (which was only used to ensure uniqueness)

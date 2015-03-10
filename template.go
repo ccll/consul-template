@@ -22,6 +22,9 @@ type Template struct {
 
 	// contents is string contents for this file when read from disk.
 	contents string
+
+	// config templates
+	ctemplate *ConfigTemplate
 }
 
 // NewTemplate creates and parses a new Consul Template template at the given
@@ -50,7 +53,17 @@ func (t *Template) Execute(brain *Brain) ([]dep.Dependency, []byte, error) {
 	name := filepath.Base(t.Path)
 	funcs := funcMap(brain, usedMap, missingMap)
 
-	tmpl, err := template.New(name).Funcs(funcs).Parse(t.contents)
+	delimLeft := ""
+	delimRight := ""
+	if t.ctemplate != nil {
+		delimLeft = t.ctemplate.DelimLeft
+		delimRight = t.ctemplate.DelimRight
+	}
+
+	tmpl, err := template.New(name).
+		Delims(delimLeft, delimRight).
+		Funcs(funcs).
+		Parse(t.contents)
 	if err != nil {
 		return nil, nil, fmt.Errorf("template: %s", err)
 	}

@@ -996,3 +996,39 @@ func TestBuildConfig_configDir(t *testing.T) {
 		}
 	}
 }
+
+func TestRun_setDelimiters(t *testing.T) {
+	in := test.CreateTempfile([]byte(`
+    <% range service "consul@nyc1"%><% end %>
+    <% range service "consul@nyc2"%><% end %>
+    <% range service "consul@nyc3"%><% end %>
+  `), t)
+	defer test.DeleteTempfile(in, t)
+
+	config := &Config{
+		ConfigTemplates: []*ConfigTemplate{
+			&ConfigTemplate{
+				DelimLeft:  "<%",
+				DelimRight: "%>",
+				Source:     in.Name(),
+			},
+		},
+	}
+
+	runner, err := NewRunner(config, true, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(runner.dependencies) != 0 {
+		t.Errorf("expected %d to be %d", len(runner.dependencies), 0)
+	}
+
+	if err := runner.Run(); err != nil {
+		t.Fatal(err)
+	}
+
+	if len(runner.dependencies) != 3 {
+		t.Errorf("expected %d to be %d", len(runner.dependencies), 3)
+	}
+}
