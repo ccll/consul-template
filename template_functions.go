@@ -301,3 +301,13 @@ func addDependency(m map[string]dep.Dependency, d dep.Dependency) {
 		m[d.HashCode()] = d
 	}
 }
+
+// contains checks if the array contains a given string.
+func containsItem(v []string, s string) bool {
+	for _, item := range v {
+		if item == s {
+			return true
+		}
+	}
+	return false
+}
