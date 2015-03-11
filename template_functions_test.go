@@ -841,3 +841,15 @@ func TestRegexCapture(t *testing.T) {
 		t.Errorf("expected %q to be %q", result, expected)
 	}
 }
+
+func TestRegexCapture_ReturnsEmpty(t *testing.T) {
+	result, err := regexCapture(`.*?_(\d+)_.*`, 1, "foo_12as_bar_ab85_baz")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := ""
+	if result != expected {
+		t.Errorf("expected %q to be %q", result, expected)
+	}
+}
