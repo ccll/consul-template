@@ -303,11 +303,23 @@ func addDependency(m map[string]dep.Dependency, d dep.Dependency) {
 }
 
 // contains checks if the array contains a given string.
-func containsItem(v []string, s string) bool {
+func containsItem(s string, v []string) bool {
 	for _, item := range v {
 		if item == s {
 			return true
 		}
 	}
 	return false
+}
+
+func regexCapture(re string, groupIndex int, s string) (string, error) {
+	compiled, err := regexp.Compile(re)
+	if err != nil {
+		return "", err
+	}
+	matches := compiled.FindStringSubmatch(s)
+	if groupIndex >= 0 && groupIndex < len(matches) {
+		return matches[groupIndex], nil
+	}
+	return "", nil
 }

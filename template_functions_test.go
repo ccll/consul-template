@@ -821,3 +821,23 @@ func TestRegexReplaceAll(t *testing.T) {
 		t.Errorf("expected %q to be %q", result, expected)
 	}
 }
+
+func TestContainsItem(t *testing.T) {
+	result := containsItem("bar", []string{"foo", "bar", "baz"})
+	expected := true
+	if result != expected {
+		t.Errorf("expected %q to be %q", result, expected)
+	}
+}
+
+func TestRegexCapture(t *testing.T) {
+	result, err := regexCapture(`.*?_(\d+)_.*`, 1, "foo_1234_bar_7285_baz")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := "1234"
+	if result != expected {
+		t.Errorf("expected %q to be %q", result, expected)
+	}
+}

@@ -139,5 +139,6 @@ func funcMap(brain *Brain, used, missing map[string]dep.Dependency) template.Fun
 		"toTitle":         toTitle,
 		"toUpper":         toUpper,
 		"containsItem":    containsItem,
+		"regexCapture":    regexCapture,
 	}
 }
